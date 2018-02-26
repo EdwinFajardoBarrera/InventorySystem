@@ -66,6 +66,7 @@ public class Controlador implements ActionListener {
         vSalir.setVisible(false);
         vRegistroInventarios.setVisible(false);
         vNewInsumo.setVisible(false);
+        System.out.println("Hola");
         
         
         //Titulos de ventanas
