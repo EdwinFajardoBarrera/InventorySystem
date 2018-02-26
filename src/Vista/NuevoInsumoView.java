@@ -41,7 +41,8 @@ public class NuevoInsumoView extends javax.swing.JFrame {
         JBGuardar = new javax.swing.JButton();
         JBSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         JLNuevoInsumo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         JLNuevoInsumo.setText("Nuevo insumo");

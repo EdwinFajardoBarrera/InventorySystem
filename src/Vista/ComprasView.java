@@ -44,7 +44,8 @@ public class ComprasView extends javax.swing.JFrame {
         JBSalir = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         setSize(new java.awt.Dimension(750, 500));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
@@ -54,8 +55,9 @@ public class ComprasView extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Insumo");
 
-        JBNuevoInsumo.setBackground(new java.awt.Color(0, 153, 51));
+        JBNuevoInsumo.setBackground(new java.awt.Color(0, 153, 0));
         JBNuevoInsumo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBNuevoInsumo.setForeground(new java.awt.Color(255, 255, 255));
         JBNuevoInsumo.setText("+ Agregar nuevo insumo");
 
         JTFPrecio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -79,12 +81,14 @@ public class ComprasView extends javax.swing.JFrame {
             }
         });
 
-        JBGuardar.setBackground(new java.awt.Color(0, 51, 153));
+        JBGuardar.setBackground(new java.awt.Color(0, 0, 204));
         JBGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBGuardar.setForeground(new java.awt.Color(255, 255, 255));
         JBGuardar.setText("Guardar");
 
         JBSalir.setBackground(new java.awt.Color(255, 51, 51));
         JBSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBSalir.setForeground(new java.awt.Color(255, 255, 255));
         JBSalir.setText("Salir");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -129,12 +133,12 @@ public class ComprasView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JTFPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBNuevoInsumo)
                     .addComponent(JBGuardar)
                     .addComponent(JBSalir))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -160,8 +164,8 @@ public class ComprasView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

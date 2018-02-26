@@ -11,12 +11,12 @@ import javax.swing.JButton;
  *
  * @author Edwin Fajardo
  */
-public class RegistroInventarioView extends javax.swing.JFrame {
+public class SalirView extends javax.swing.JFrame {
 
     /**
-     * Creates new form InventarioView
+     * Creates new form SalirView
      */
-    public RegistroInventarioView() {
+    public SalirView() {
         initComponents();
     }
 
@@ -29,29 +29,20 @@ public class RegistroInventarioView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        JTInsumos = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        JBCancelar = new javax.swing.JButton();
         JBSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        JTInsumos.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        JTInsumos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        JTInsumos.setEnabled(false);
-        JTInsumos.setMaximumSize(new java.awt.Dimension(2147483647, 80));
-        jScrollPane1.setViewportView(JTInsumos);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("¿Realmente desea salir?");
 
+        JBCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JBCancelar.setText("Cancelar");
+
+        JBSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         JBSalir.setText("Salir");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -60,20 +51,24 @@ public class RegistroInventarioView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 762, Short.MAX_VALUE)
-                        .addComponent(JBSalir))
-                    .addComponent(jScrollPane1))
+                .addComponent(JBCancelar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(JBSalir)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(jLabel1)
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(JBSalir)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JBCancelar)
+                    .addComponent(JBSalir))
                 .addContainerGap())
         );
 
@@ -97,26 +92,32 @@ public class RegistroInventarioView extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistroInventarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalirView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistroInventarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalirView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistroInventarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalirView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistroInventarioView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SalirView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistroInventarioView().setVisible(true);
+                new SalirView().setVisible(true);
             }
         });
     }
 
-    //Getters and setters
+    public JButton getJBCancelar() {
+        return JBCancelar;
+    }
+
+    public void setJBCancelar(JButton JBCancelar) {
+        this.JBCancelar = JBCancelar;
+    }
+
     public JButton getJBSalir() {
         return JBSalir;
     }
@@ -128,8 +129,8 @@ public class RegistroInventarioView extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton JBCancelar;
     public javax.swing.JButton JBSalir;
-    public javax.swing.JTable JTInsumos;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

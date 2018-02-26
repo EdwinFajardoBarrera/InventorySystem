@@ -1,6 +1,8 @@
 /* En esta clase se van a crear objetios del tipo insumo tales que contienen ID, nombre, unidad de medida, cantidad y precio*/
 package Modelo;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author erofa
@@ -10,12 +12,12 @@ public class Insumos {
     private int ID;
     private String nombre;
     private String unidadMedida;
-    private int cantidad;
-    private double precio;
+    private BigDecimal cantidad;
+    private BigDecimal precio;
     private String fecha;
 
     //Constructor
-    public Insumos(int ID, String nombre, String unidadMedida, int cantidad, double precio, String fecha) {
+    public Insumos(int ID, String nombre, String unidadMedida, BigDecimal cantidad, BigDecimal precio, String fecha) {
         this.ID = ID;
         this.nombre = nombre;
         this.unidadMedida = unidadMedida;
@@ -48,19 +50,19 @@ public class Insumos {
         this.unidadMedida = unidadMedida;
     }
 
-    public int getCantidad() {
+    public BigDecimal getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(BigDecimal cantidad) {
         this.cantidad = cantidad;
     }
 
-    public double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 

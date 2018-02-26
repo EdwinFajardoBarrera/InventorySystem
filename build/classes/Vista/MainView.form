@@ -3,6 +3,7 @@
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -33,6 +34,8 @@
                       <Component id="JBRegistroInsumos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="JBInventarios" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="JBSalir" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="JLFondo" min="-2" pref="1190" max="-2" attributes="0"/>
               </Group>
@@ -48,6 +51,7 @@
                   <Component id="JBCompras" min="-2" max="-2" attributes="0"/>
                   <Component id="JBRegistroInsumos" min="-2" max="-2" attributes="0"/>
                   <Component id="JBInventarios" min="-2" max="-2" attributes="0"/>
+                  <Component id="JBSalir" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Component id="JLFondo" min="-2" pref="500" max="-2" attributes="0"/>
@@ -120,6 +124,20 @@
           <Image iconType="3" name="/Vista/Icons/Inventario.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="INVENTARIOS"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="JBSalir">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="0"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Vista/Icons/cerrar.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="SALIR"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>

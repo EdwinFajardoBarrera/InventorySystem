@@ -13,6 +13,8 @@ import javax.swing.JLabel;
  * @author Edwin Fajardo
  */
 public class MainView extends javax.swing.JFrame {
+    
+    SalirView vSalir = new SalirView();
 
     /**
      * Creates new form MainView
@@ -35,8 +37,10 @@ public class MainView extends javax.swing.JFrame {
         JBProduccion = new javax.swing.JButton();
         JBRegistroInsumos = new javax.swing.JButton();
         JBInventarios = new javax.swing.JButton();
+        JBSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         JBCompras.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         JBCompras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/Icons/Compras.png"))); // NOI18N
@@ -61,6 +65,10 @@ public class MainView extends javax.swing.JFrame {
         JBInventarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/Icons/Inventario.png"))); // NOI18N
         JBInventarios.setText("INVENTARIOS");
 
+        JBSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JBSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vista/Icons/cerrar.png"))); // NOI18N
+        JBSalir.setText("SALIR");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,7 +82,9 @@ public class MainView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JBRegistroInsumos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(JBInventarios))
+                        .addComponent(JBInventarios)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JBSalir))
                     .addComponent(JLFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52))
         );
@@ -85,7 +95,8 @@ public class MainView extends javax.swing.JFrame {
                     .addComponent(JBProduccion)
                     .addComponent(JBCompras)
                     .addComponent(JBRegistroInsumos)
-                    .addComponent(JBInventarios))
+                    .addComponent(JBInventarios)
+                    .addComponent(JBSalir))
                 .addGap(23, 23, 23)
                 .addComponent(JLFondo, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -172,10 +183,22 @@ public class MainView extends javax.swing.JFrame {
     public void setJBInventarios(JButton JBInventarios) {
         this.JBInventarios = JBInventarios;
     }
-    
-    
-    
-    
+
+    public JButton getJBProduccion() {
+        return JBProduccion;
+    }
+
+    public void setJBProduccion(JButton JBProduccion) {
+        this.JBProduccion = JBProduccion;
+    }
+
+    public JButton getJBSalir() {
+        return JBSalir;
+    }
+
+    public void setJBSalir(JButton JBSalir) {
+        this.JBSalir = JBSalir;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -183,6 +206,7 @@ public class MainView extends javax.swing.JFrame {
     public javax.swing.JButton JBInventarios;
     public javax.swing.JButton JBProduccion;
     public javax.swing.JButton JBRegistroInsumos;
+    public javax.swing.JButton JBSalir;
     public javax.swing.JLabel JLFondo;
     // End of variables declaration//GEN-END:variables
 }

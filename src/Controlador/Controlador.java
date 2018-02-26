@@ -10,6 +10,7 @@ import Vista.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,7 @@ public class Controlador implements ActionListener {
     private final ComprasView vCompras;
     private final ProduccionView vProduccion;
     private final RegistroInventarioView vRegistroInventarios;
+    private final SalirView vSalir;
     private final NuevoInsumoView vNewInsumo;
     private final InventariosView vInventarios;
     private final Insumos insumos;
@@ -37,11 +39,12 @@ public class Controlador implements ActionListener {
     private ArrayList<Insumos> listaInventarios; 
     
     //Constructor
-    public Controlador(MainView vMain, ComprasView vCompras, ProduccionView vProduccion, RegistroInventarioView vRegistroInventarios, NuevoInsumoView vNewInsumo, InventariosView vInventarios, Insumos insumos, ArrayList<Insumos> listaInsumos, ArrayList<String> listaUnidadesMed, ArrayList<Insumos> listaRegistroInsumos, ArrayList<Insumos> listaInventarios) {
+    public Controlador(MainView vMain, ComprasView vCompras, ProduccionView vProduccion, RegistroInventarioView vRegistroInventarios, SalirView vSalir, NuevoInsumoView vNewInsumo, InventariosView vInventarios, Insumos insumos, ArrayList<Insumos> listaInsumos, ArrayList<String> listaUnidadesMed, ArrayList<Insumos> listaRegistroInsumos, ArrayList<Insumos> listaInventarios) {
         this.vMain = vMain;
         this.vCompras = vCompras;
         this.vProduccion = vProduccion;
         this.vRegistroInventarios = vRegistroInventarios;
+        this.vSalir = vSalir;
         this.vNewInsumo = vNewInsumo;
         this.vInventarios = vInventarios;
         this.insumos = insumos;
@@ -49,9 +52,7 @@ public class Controlador implements ActionListener {
         this.listaUnidadesMed = listaUnidadesMed;
         this.listaRegistroInsumos = listaRegistroInsumos;
         this.listaInventarios = listaInventarios;
-    }
-    
-      
+    }     
     
 
     public void iniciar() {
@@ -61,15 +62,18 @@ public class Controlador implements ActionListener {
         vMain.setVisible(true);
         vCompras.setVisible(false);
         vProduccion.setVisible(false);
+        vInventarios.setVisible(false);
+        vSalir.setVisible(false);
         vRegistroInventarios.setVisible(false);
         vNewInsumo.setVisible(false);
-        vInventarios.setVisible(false);
+        
         
         //Titulos de ventanas
         vMain.setTitle("Bowisa");
         vCompras.setTitle("Compras");
         vProduccion.setTitle("Producción");
         vRegistroInventarios.setTitle("Registro de insumos");
+        vSalir.setTitle("Salir");
         vNewInsumo.setTitle("Nuevo insumo");
         vInventarios.setTitle("Inventarios");
         
@@ -78,6 +82,7 @@ public class Controlador implements ActionListener {
         vCompras.setLocationRelativeTo(null);
         vProduccion.setLocationRelativeTo(null);
         vRegistroInventarios.setLocationRelativeTo(null);
+        vSalir.setLocationRelativeTo(null);
         vNewInsumo.setLocationRelativeTo(null);
         vInventarios.setLocationRelativeTo(null);
         
@@ -86,6 +91,7 @@ public class Controlador implements ActionListener {
         vMain.JBProduccion.addActionListener(this);
         vMain.JBRegistroInsumos.addActionListener(this);
         vMain.JBInventarios.addActionListener(this);
+        vMain.JBSalir.addActionListener(this);
         
         //Botones Compras
         vCompras.JBGuardar.addActionListener(this);
@@ -102,6 +108,10 @@ public class Controlador implements ActionListener {
         //Botones RegistroInventarios
         vRegistroInventarios.JBSalir.addActionListener(this);
         
+        //Botones Salir
+        vSalir.JBCancelar.addActionListener(this);
+        vSalir.JBSalir.addActionListener(this);
+        
         //Botones NuevoInsumo
         vNewInsumo.JBGuardar.addActionListener(this);
         vNewInsumo.JBSalir.addActionListener(this);
@@ -111,12 +121,17 @@ public class Controlador implements ActionListener {
             vNewInsumo.JCBUnidadMed.addItem(listaUnidadesMed.get(i));            
         }        
         
-        //Inicialización de la tabla del la ventana "Inventario
+        //Inicialización de la tabla del la ventana "Inventario"
         configuraTablaRegistro(vRegistroInventarios.JTInsumos);
         configuraTablaRegistro(vInventarios.JTInventarios);
         
         }
     
+    /**
+     * 
+     * @param String fecha = ""
+     * @return SimpleDateFormat("dd/MM/yyyy HH:mm") + " HRS"
+     */
     public String EstablecerFecha(String fecha){
             
             Date now = new Date(System.currentTimeMillis());
@@ -126,9 +141,12 @@ public class Controlador implements ActionListener {
             
             return fechaActual + " HRS";            
             
-        }
+    }
     
-    
+    /**
+     * 
+     * @param JTabletabla 
+     */
     public void configuraTablaRegistro(JTable tabla){
         Vector<String> titulos = new Vector<String>();
         Vector<Vector<Object>> datos = new Vector<Vector<Object>>();
@@ -159,6 +177,10 @@ public class Controlador implements ActionListener {
         
     }
     
+    /**
+     * 
+     * @param JTable tabla 
+     */
     public void configuraTablaInventarios(JTable tabla){
         Vector<String> titulos = new Vector<String>();
         Vector<Vector<Object>> datos = new Vector<Vector<Object>>();
@@ -166,7 +188,7 @@ public class Controlador implements ActionListener {
         titulos.add("ID");
         titulos.add("Nombre");
         titulos.add("Cantidad");
-        titulos.add("Precio promedio");
+        titulos.add("Precio unitario promedio");
         
         for (Insumos ins : listaInventarios) {
             Vector<Object> row = new Vector<Object>();
@@ -184,7 +206,6 @@ public class Controlador implements ActionListener {
         tabla.setModel(modelo);                 
         
     }
-    
     
     public void actionPerformed (ActionEvent e){
         
@@ -205,92 +226,90 @@ public class Controlador implements ActionListener {
             vInventarios.setVisible(true);
         }
         
+        if (vMain.getJBSalir() == e.getSource()) {
+            vSalir.setVisible(true);
+        }
+        
         //Botones vCompras
         if (vCompras.getJBGuardar() == e.getSource()){            
             
             
             try{
                 
-            String nombreInsumo = (String) vCompras.JCBInsumos.getSelectedItem();            
-            int cantidad = Integer.parseInt(vCompras.JTFCantidad.getText());
-            int precio = Integer.parseInt(vCompras.JTFPrecio.getText());
-            String fecha = null;
-            String fechaActual = EstablecerFecha(fecha);
+                //Tomo los valores nombreInsumo, cantidad, precio y fecha
+                String nombreInsumo = (String) vCompras.JCBInsumos.getSelectedItem();                
+                BigDecimal cantidad = new BigDecimal(vCompras.JTFCantidad.getText());
+                BigDecimal precio = new BigDecimal(vCompras.JTFPrecio.getText());
+                String fecha = null;
+                String fechaActual = EstablecerFecha(fecha);
             
+                //NombreInsumo no puede estár vacío
                 if(nombreInsumo.isEmpty() || vCompras.JTFCantidad.getText().isEmpty() || vCompras.JTFPrecio.getText().isEmpty()){
                     throw new EmptyException("");
                 }
                 
-                if (cantidad <= 0 || precio <= 0){
+                //La cantidad y el precio no pueden ser menores o iguales a cero
+                if (cantidad.doubleValue() <= 0 || precio.doubleValue() <= 0){
                     throw new CeroException("");
-                }
+                }              
                 
+                
+                //Para cada elemento de listaInsumos
                 for (int i = 0; i < listaInsumos.size(); i++) {
                     
+                        //Si en los inventarios existe ya el insumo, solo se cambian sus valores
+                        int cont = 0;
+                        for(Insumos nombre : listaInventarios){
+                            
+                            if (nombre.getNombre().equals(nombreInsumo)) {
+                                BigDecimal cantTotal = cantidad.add(nombre.getCantidad());
+                                nombre.setCantidad(cantTotal);
+                                
+                                BigDecimal TWO = new BigDecimal(2);
+                                BigDecimal precioProme = precio.divide(cantidad);
+                                BigDecimal precioProme2 = precioProme.add(nombre.getPrecio()).divide(TWO);
+                                precioProme.setScale(2, BigDecimal.ROUND_UP);                                
+                                nombre.setPrecio(precioProme2);
+                                cont++;
+                            }
+                            
+                        }
+                    
+                    //Si su nombre es igual a nombreInsumo
                     if (listaInsumos.get(i).getNombre().equals(nombreInsumo)) {
                         
                         int ID = listaInsumos.get(i).getID();
                         String unidadMed = listaInsumos.get(i).getUnidadMedida();
                         
-                        
-                        
-                        int precioProm = precio / cantidad;
+                        //Invertí cantidad <-> precio
+                        BigDecimal precioProm = precio.divide(cantidad);
+                        precioProm.setScale(2, BigDecimal.ROUND_UP);
                         
                         Insumos compra = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual);
                         
                         Insumos compra2 = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual);
                         
                         listaRegistroInsumos.add(compra);
-                        //listaInventarios.add(compra2);                       
-
-                        for (int j = 0; j < listaInventarios.size(); j++) {                            
-                            
-                            if (listaInventarios.get(j).getNombre().equalsIgnoreCase(nombreInsumo)) {                                
-                                listaInventarios.get(j).setCantidad(cantidad + listaInventarios.get(j).getCantidad());
-                                listaInventarios.get(j).setPrecio((precio + listaInventarios.get(j).getPrecio()) / listaInventarios.get(j).getCantidad() );
-                            }
-                        }
                         
-                        if (listaInventarios.isEmpty()) {
+                         //Aqui voy a tomar el nombre de cada elemento de listaInventarios y checar si su nombre es igual
+                         //Al que se esta comprando, si es igual, solo se cambiaran la cantidad y promedio, si no
+                         //Se agregará el inusmo por primera vez                  
+                        
+                        
+                        if (cont == 0) {
                             listaInventarios.add(compra2);
+                            System.out.println("No existe el insumo en el inventario");
                         }
                         
-//                        int cantidadTotal = cantidad + listaInsumos.get(i).getCantidad();
-//                        int precioSum = (int) (precio + listaInsumos.get(i).getPrecio());
-//                        int precioProm = precioSum / cantidadTotal;
-                        
-//                        for (int j = 0; j < listaInventarios.size(); j++) {
-//                            
-//                            if (listaInventarios.get(i).getNombre().equals(nombreInsumo)) {
-//                                listaInventarios.get(i).setCantidad(cantidad + listaInsumos.get(i).getCantidad());
-//                                listaInventarios.get(i).setPrecio(precio + listaInsumos.get(i).getPrecio());
-//                            }
-//                            
-//                        }
-                        
-                        //Insumos compra2 = new Insumos(ID,nombreInsumo,unidadMed,cantidadTotal,precioProm,fechaActual);
-                        //listaInventarios.add(compra);
+                        //Si no existe algun insumo en inventarios agrega la primera cantidad y su promedio
+//                        if (listaInventarios.isEmpty()) {
+//                            listaInventarios.add(compra2);
+//                        } 
                            
                     }
                     
                 }
                 
-//                for (int i = 0; i < listaInsumos.size(); i++) {
-//                    
-//                    if (listaInsumos.get(i).getNombre().equals(nombreInsumo)) {
-//                        
-//                        int ID = listaInsumos.get(i).getID();
-//                        String unidadMed = listaInsumos.get(i).getUnidadMedida();
-//                        int cantidadTotal = Integer.parseInt(vCompras.JTFCantidad.getText() + listaInsumos.get(i).getCantidad());
-//                        int precioSum = Integer.parseInt(vCompras.JTFPrecio.getText() + listaInsumos.get(i).getPrecio());
-//                        int precioProm = precioSum / cantidadTotal;
-//                        
-//                        Insumos compra2 = new Insumos(ID,nombreInsumo,unidadMed,cantidadTotal,precioProm,fechaActual);
-//                        listaInventarios.add(compra2);
-//                        
-//                    }
-//                    
-//                }
                 
 
                 JOptionPane.showMessageDialog(null, "¡Guardado satisfactoriamente!");
@@ -324,6 +343,7 @@ public class Controlador implements ActionListener {
             vCompras.setVisible(false);
         }        
         
+        
         //Botones vProduccion           
         if (vProduccion.getJBSalir() == e.getSource()) {
             vProduccion.setVisible(false);
@@ -334,10 +354,18 @@ public class Controlador implements ActionListener {
             vRegistroInventarios.setVisible(false);
         }
         
-        //Botones vInventarios
-        
+        //Botones vInventarios        
         if (vInventarios.getJBSalir() == e.getSource()) {
             vInventarios.setVisible(false);
+        }
+        
+        //Botones vSalir
+        if (vSalir.getJBCancelar() == e.getSource()) {
+            vSalir.setVisible(false);
+        }
+        
+        if (vSalir.getJBSalir() == e.getSource()) {
+            System.exit(0);
         }
         
         //Botones vNewInsumo
@@ -349,6 +377,8 @@ public class Controlador implements ActionListener {
             vNewInsumo.JTFID.setText("" + ID);
             String nombre = vNewInsumo.getJTFNombre().getText();
             String unidadMed = s;
+            BigDecimal price = new BigDecimal(0);
+            BigDecimal cant = new BigDecimal(0);
             
                 if (nombre.isEmpty()) {
                     throw new EmptyException("");
@@ -362,7 +392,7 @@ public class Controlador implements ActionListener {
                     
                 }            
             
-            Insumos ins = new Insumos(ID,nombre,unidadMed,0,0,"");
+            Insumos ins = new Insumos(ID,nombre,unidadMed,cant,price,"");
             
             listaInsumos.add(ins);
             vCompras.JCBInsumos.addItem(ins.getNombre());

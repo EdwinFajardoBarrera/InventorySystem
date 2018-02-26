@@ -37,7 +37,8 @@ public class ProduccionView extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         JBSalir.setBackground(new java.awt.Color(255, 51, 51));
         JBSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
