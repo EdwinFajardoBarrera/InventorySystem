@@ -30,8 +30,8 @@ public class SalirView extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        JBCancelar = new javax.swing.JButton();
         JBSalir = new javax.swing.JButton();
+        JBCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -39,11 +39,15 @@ public class SalirView extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("¿Realmente desea salir?");
 
-        JBCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        JBCancelar.setText("Cancelar");
-
-        JBSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        JBSalir.setBackground(new java.awt.Color(255, 51, 51));
+        JBSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBSalir.setForeground(new java.awt.Color(255, 255, 255));
         JBSalir.setText("Salir");
+
+        JBCancelar.setBackground(new java.awt.Color(255, 51, 51));
+        JBCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBCancelar.setForeground(new java.awt.Color(255, 255, 255));
+        JBCancelar.setText("Cancelar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -67,8 +71,8 @@ public class SalirView extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JBCancelar)
-                    .addComponent(JBSalir))
+                    .addComponent(JBSalir)
+                    .addComponent(JBCancelar))
                 .addContainerGap())
         );
 

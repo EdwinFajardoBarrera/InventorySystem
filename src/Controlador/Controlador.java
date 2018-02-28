@@ -36,7 +36,8 @@ public class Controlador implements ActionListener {
     private ArrayList<Insumos> listaInsumos;
     private ArrayList<String> listaUnidadesMed;
     private ArrayList<Insumos> listaRegistroInsumos;
-    private ArrayList<Insumos> listaInventarios; 
+    private ArrayList<Insumos> listaInventarios;
+    private ArrayList<Producto> listaProductos;
     
     //Constructor
     public Controlador(MainView vMain, ComprasView vCompras, ProduccionView vProduccion, RegistroInventarioView vRegistroInventarios, SalirView vSalir, NuevoInsumoView vNewInsumo, InventariosView vInventarios, Insumos insumos, ArrayList<Insumos> listaInsumos, ArrayList<String> listaUnidadesMed, ArrayList<Insumos> listaRegistroInsumos, ArrayList<Insumos> listaInventarios) {
@@ -66,14 +67,13 @@ public class Controlador implements ActionListener {
         vSalir.setVisible(false);
         vRegistroInventarios.setVisible(false);
         vNewInsumo.setVisible(false);
-        System.out.println("Hola");
         
         
         //Titulos de ventanas
         vMain.setTitle("Bowisa");
         vCompras.setTitle("Compras");
         vProduccion.setTitle("Producción");
-        vRegistroInventarios.setTitle("Registro de insumos");
+        vRegistroInventarios.setTitle("Registro de compras y ventas");
         vSalir.setTitle("Salir");
         vNewInsumo.setTitle("Nuevo insumo");
         vInventarios.setTitle("Inventarios");
@@ -122,9 +122,10 @@ public class Controlador implements ActionListener {
             vNewInsumo.JCBUnidadMed.addItem(listaUnidadesMed.get(i));            
         }        
         
-        //Inicialización de la tabla del la ventana "Inventario"
+        //Inicialización de las tablas
         configuraTablaRegistro(vRegistroInventarios.JTInsumos);
-        configuraTablaRegistro(vInventarios.JTInventarios);
+        configuraTablaInventarios(vInventarios.JTInventarios);
+        System.out.println("Hola culebros");
         
         }
     
@@ -158,6 +159,7 @@ public class Controlador implements ActionListener {
         titulos.add("Unidad de medida");
         titulos.add("Precio");
         titulos.add("Fecha");
+        titulos.add("Transacción");
         
         for (Insumos ins : listaRegistroInsumos) {
             Vector<Object> row = new Vector<Object>();
@@ -168,6 +170,7 @@ public class Controlador implements ActionListener {
             row.add(ins.getUnidadMedida());
             row.add(ins.getPrecio());
             row.add(ins.getFecha());
+            row.add(ins.getTransaccion());
             
             datos.add(row);
         }
@@ -243,6 +246,7 @@ public class Controlador implements ActionListener {
                 BigDecimal precio = new BigDecimal(vCompras.JTFPrecio.getText());
                 String fecha = null;
                 String fechaActual = EstablecerFecha(fecha);
+                String transaccion = "Compra";
             
                 //NombreInsumo no puede estár vacío
                 if(nombreInsumo.isEmpty() || vCompras.JTFCantidad.getText().isEmpty() || vCompras.JTFPrecio.getText().isEmpty()){
@@ -286,9 +290,9 @@ public class Controlador implements ActionListener {
                         BigDecimal precioProm = precio.divide(cantidad);
                         precioProm.setScale(2, BigDecimal.ROUND_UP);
                         
-                        Insumos compra = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual);
+                        Insumos compra = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
                         
-                        Insumos compra2 = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual);
+                        Insumos compra2 = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual, transaccion);
                         
                         listaRegistroInsumos.add(compra);
                         
@@ -393,7 +397,7 @@ public class Controlador implements ActionListener {
                     
                 }            
             
-            Insumos ins = new Insumos(ID,nombre,unidadMed,cant,price,"");
+            Insumos ins = new Insumos(ID,nombre,unidadMed,cant,price,"", "");
             
             listaInsumos.add(ins);
             vCompras.JCBInsumos.addItem(ins.getNombre());

@@ -65,10 +65,12 @@ public class NuevoInsumoView extends javax.swing.JFrame {
 
         JBGuardar.setBackground(new java.awt.Color(0, 51, 153));
         JBGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBGuardar.setForeground(new java.awt.Color(255, 255, 255));
         JBGuardar.setText("Guardar");
 
         JBSalir.setBackground(new java.awt.Color(255, 51, 51));
         JBSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBSalir.setForeground(new java.awt.Color(255, 255, 255));
         JBSalir.setText("Salir");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -15,16 +15,19 @@ public class Insumos {
     private BigDecimal cantidad;
     private BigDecimal precio;
     private String fecha;
+    private String transaccion;
 
     //Constructor
-    public Insumos(int ID, String nombre, String unidadMedida, BigDecimal cantidad, BigDecimal precio, String fecha) {
+    public Insumos(int ID, String nombre, String unidadMedida, BigDecimal cantidad, BigDecimal precio, String fecha, String transaccion) {
         this.ID = ID;
         this.nombre = nombre;
         this.unidadMedida = unidadMedida;
         this.cantidad = cantidad;
         this.precio = precio;
         this.fecha = fecha;
+        this.transaccion = transaccion;
     }
+    
 
         public int getID() {
         return ID;
@@ -73,6 +76,15 @@ public class Insumos {
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+
+    public String getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(String transaccion) {
+        this.transaccion = transaccion;
+    }
+    
     
     
         

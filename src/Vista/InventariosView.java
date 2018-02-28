@@ -37,6 +37,9 @@ public class InventariosView extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setResizable(false);
 
+        JBSalir.setBackground(new java.awt.Color(255, 51, 51));
+        JBSalir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        JBSalir.setForeground(new java.awt.Color(255, 255, 255));
         JBSalir.setText("Salir");
 
         JTInventarios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -51,6 +54,7 @@ public class InventariosView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        JTInventarios.setEnabled(false);
         jScrollPane1.setViewportView(JTInventarios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -60,17 +64,17 @@ public class InventariosView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(JBSalir)))
+                        .addComponent(JBSalir))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+                .addGap(21, 21, 21)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JBSalir)
                 .addContainerGap())

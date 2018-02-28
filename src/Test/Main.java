@@ -28,7 +28,7 @@ public class Main {
         InventariosView vInventarios = new InventariosView();
         BigDecimal num = new BigDecimal(0);
         BigDecimal cant = new BigDecimal(0);
-        Insumos insumo = new Insumos(0,"","",cant,num,"");
+        Insumos insumo = new Insumos(0,"","",cant,num,"","");
         ArrayList<Insumos> listaInsumos = new ArrayList<Insumos>();
         ArrayList<String> listaUnidades = new ArrayList<String>();
         ArrayList<Insumos> listaRegistroInventarios = new ArrayList<Insumos>();
