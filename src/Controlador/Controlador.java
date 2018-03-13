@@ -61,16 +61,16 @@ public class Controlador implements ActionListener {
         ItemListener s = null;
         ItemListener s2 = null;
         
+        //En esta parte se establecen las visibilidades inciales de las ventanas
         vMain.setVisible(true);
         vCompras.setVisible(false);
         vProduccion.setVisible(false);
         vInventarios.setVisible(false);
         vSalir.setVisible(false);
         vRegistroInventarios.setVisible(false);
-        vNewInsumo.setVisible(false);
+        vNewInsumo.setVisible(false);        
         
-        
-        //Titulos de ventanas
+        //En esta parte se establecen los titulos de las ventanas
         vMain.setTitle("Bowisa");
         vCompras.setTitle("Compras");
         vProduccion.setTitle("Producción");
@@ -79,7 +79,7 @@ public class Controlador implements ActionListener {
         vNewInsumo.setTitle("Nuevo insumo");
         vInventarios.setTitle("Inventarios");
         
-        //Locación de las ventanas
+        //En esta parte se establece la localización de las ventanas
         vMain.setLocationRelativeTo(null);
         vCompras.setLocationRelativeTo(null);
         vProduccion.setLocationRelativeTo(null);
@@ -88,59 +88,67 @@ public class Controlador implements ActionListener {
         vNewInsumo.setLocationRelativeTo(null);
         vInventarios.setLocationRelativeTo(null);
         
-        //Botones Main
+        /*
+        En esta parte se añaden, a todos los botones de todas las interfaces 
+        graficas, ActionListeners para poder detectar cuando el usuario presiona
+        un boton en alguna de las ventanas.
+        {vMain, vCompras, vProduccion, vInventarios, vRegistroInventarios,}
+        */        
+        //Botones de la ventana Main
         vMain.JBCompras.addActionListener(this);
         vMain.JBProduccion.addActionListener(this);
         vMain.JBRegistroInsumos.addActionListener(this);
         vMain.JBInventarios.addActionListener(this);
         vMain.JBSalir.addActionListener(this);
         
-        //Botones Compras
+        //Botones de la ventana Compras
         vCompras.JBGuardar.addActionListener(this);
         vCompras.JBNuevoInsumo.addActionListener(this);
         vCompras.JBSalir.addActionListener(this);
         vCompras.JCBInsumos.addItemListener(s);
         
-        //Botones Produccion
+        //Botones de la ventana Produccion
         vProduccion.JBSalir.addActionListener(this);
         
-        //Botones Inventarios
+        //Botones de la ventan Inventarios
         vInventarios.JBSalir.addActionListener(this);
         
-        //Botones RegistroInventarios
+        //Botones de la ventan RegistroInventarios
         vRegistroInventarios.JBSalir.addActionListener(this);
         
-        //Botones Salir
+        //Botones de la ventana Salir
         vSalir.JBCancelar.addActionListener(this);
         vSalir.JBSalir.addActionListener(this);
         
-        //Botones NuevoInsumo
+        //Botones de la ventana NuevoInsumo
         vNewInsumo.JBGuardar.addActionListener(this);
         vNewInsumo.JBSalir.addActionListener(this);
         
-        //Unidades de medida default        
+        //En esta parte se añaden las unidades de medida default  
         for (int i = 0; i < listaUnidadesMed.size(); i++) {
             vNewInsumo.JCBUnidadMed.addItem(listaUnidadesMed.get(i));            
         }        
         
-        //Inicialización de las tablas
+        /*
+        En esta parte se inicializan las tablas que se utilizan para el registro
+        de insumos e inventarios.
+        */       
         configuraTablaRegistro(vRegistroInventarios.JTInsumos);
         configuraTablaInventarios(vInventarios.JTInventarios);
-        }
+        
+    }
     
     /**
-     * 
      * @param String fecha = ""
      * @return SimpleDateFormat("dd/MM/yyyy HH:mm") + " HRS"
      */
     public String EstablecerFecha(String fecha){
             
-            Date now = new Date(System.currentTimeMillis());
-            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date now = new Date(System.currentTimeMillis());
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm");            
+        String fechaActual = date.format(now);
             
-            String fechaActual = date.format(now);
-            
-            return fechaActual + " HRS";            
+        return fechaActual + " HRS";            
             
     }
     
@@ -212,40 +220,53 @@ public class Controlador implements ActionListener {
         
     }
     
+    /*
+    En esta parte se ejecutan las acciones especificas de los botones de cada
+    ventana.
+    */
     public void actionPerformed (ActionEvent e){
         
-        //Botones vMain
+        /*
+        Botones de la ventana vMain
+        */        
+        //Boton "Compras"
         if (vMain.getJBCompras() == e.getSource()){
             vCompras.setVisible(true);
         }
         
+        //Boton "Ventas"
         if (vMain.getJBVentas() == e.getSource()){
             vProduccion.setVisible(true);
         }
         
+        //Boton "RegistroInsumos"
         if (vMain.getJBRegistroInsumos() == e.getSource()){
             vRegistroInventarios.setVisible(true);
         }
         
+        //Boton "Inventarios"
         if (vMain.getJBInventarios() == e.getSource()) {
             vInventarios.setVisible(true);
         }
         
+        //Boton "Salir"
         if (vMain.getJBSalir() == e.getSource()) {
             vSalir.setVisible(true);
         }
         
-        //Botones vCompras
-        if (vCompras.getJBGuardar() == e.getSource()){            
-            
+        /*
+        Botones de la ventana vCompras
+        */
+        //Boton "Guardar"
+        if (vCompras.getJBGuardar() == e.getSource()){           
             
             try{
                 
                 /*
-                Se toman los valores {nombreInsumo, cantidad, precio, fecha}
-                de los campos correspondientes en la interfaz grafica donde 
-                escribirá y/o seleccionara el usuario. La transaccion será, en
-                esta caso, siempre la constante "Compra".
+                En esta parte se toman los valores {nombreInsumo, cantidad, 
+                precio, fecha} de los campos correspondientes en la interfaz 
+                grafica donde escribirá y/o seleccionara el usuario. 
+                La transaccion será, en esta caso, siempre la constante "Compra".
                 */
                 String nombreInsumo = (String) vCompras.JCBInsumos.getSelectedItem();                
                 BigDecimal cantidad = new BigDecimal(vCompras.JTFCantidad.getText());
@@ -326,31 +347,31 @@ public class Controlador implements ActionListener {
                         por primera vez a los inventarios, para lo cual se utilizan
                         los datos solicidados previamente {ID y unidadMed}.
                         */
-                        if (insumo.getNombre().equals(nombreInsumo)) {
+                    if (insumo.getNombre().equals(nombreInsumo)) {
                         
-                            int ID = insumo.getID();
-                            String unidadMed = insumo.getUnidadMedida();
+                        int ID = insumo.getID();
+                        String unidadMed = insumo.getUnidadMedida();
                         
-                            BigDecimal precioProm = precio.divide(cantidad, 2, RoundingMode.CEILING);
-                            precioProm.setScale(2, BigDecimal.ROUND_UNNECESSARY);
+                        BigDecimal precioProm = precio.divide(cantidad, 2, RoundingMode.CEILING);
+                        precioProm.setScale(2, BigDecimal.ROUND_UNNECESSARY);
                         
-                            //CompraInsumos sirve agregar la compra al registro
-                            Insumo compraInsumos = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
+                        //CompraInsumos sirve agregar la compra al registro
+                        Insumo compraInsumos = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
                         
-                            //CompraInventarios sirve para agregar el insumo a los inventarios
-                            Insumo compraInventarios = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual, transaccion);
+                        //CompraInventarios sirve para agregar el insumo a los inventarios
+                        Insumo compraInventarios = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual, transaccion);
                         
-                            listaRegistroInsumos.add(compraInsumos);                      
+                        listaRegistroInsumos.add(compraInsumos);                      
                         
-                            //Si nunca antes se ha comprado el insumo se agrega por primera vez al inventario
-                            if (existe == false) {
-                                listaInventarios.add(compraInventarios);
-                                System.out.println("Se agregó por primera vez el insumo al inventario");
-                            }
+                        //Si nunca antes se ha comprado el insumo se agrega por primera vez al inventario
+                        if (existe == false) {
+                            listaInventarios.add(compraInventarios);
+                            System.out.println("Se agregó por primera vez el insumo al inventario");
+                        }
                         
-                        }                            
+                    }                            
                              
-                    }
+                }
                 
                 //Para cada elemento de listaInsumos (1)
 //                for (int i = 0; i < listaInsumos.size(); i++) {
@@ -429,52 +450,71 @@ public class Controlador implements ActionListener {
             catch(CeroException e4){
                 JOptionPane.showMessageDialog(null, "La cantidad no puede ser menor o igual a cero");
             }
+            
         }
         
+        //Boton "NuevoInsumo"
         if (vCompras.getJBNuevoInsumo() == e.getSource()){
             vNewInsumo.setVisible(true);            
         }
         
+        //Boton "Salir"
         if (vCompras.getJBSalir() == e.getSource()){
             vCompras.setVisible(false);
-        }        
+        }       
         
-        
-        //Botones vProduccion           
+        /*
+        Botones de la ventana vProduccion
+        */
+        //Boton "Salir"
         if (vProduccion.getJBSalir() == e.getSource()) {
             vProduccion.setVisible(false);
         }        
         
-        //Botones vRegistroInventarios
+        /*
+        Botones de la ventana vRegistroInventarios        
+        */
+        //Boton "Salir"
         if (vRegistroInventarios.getJBSalir() == e.getSource()){
             vRegistroInventarios.setVisible(false);
         }
         
-        //Botones vInventarios        
+        /*
+        Botones de la ventana vInventarios        
+        */
+        //Boton "Salir"
         if (vInventarios.getJBSalir() == e.getSource()) {
             vInventarios.setVisible(false);
         }
         
-        //Botones vSalir
+        /*
+        Botones de la ventana vSalir        
+        */
+        //Boton "Cancelar"
         if (vSalir.getJBCancelar() == e.getSource()) {
             vSalir.setVisible(false);
         }
         
+        //Boton "Salir"
         if (vSalir.getJBSalir() == e.getSource()) {
             System.exit(0);
         }
         
-        //Botones vNewInsumo
+        /*
+        Botones de la ventana vNewInsumo
+        */
+        //Boton "Guardar"
         if (vNewInsumo.getJBGuardar() == e.getSource()){           
             
             try{
-            String s = (String) vNewInsumo.JCBUnidadMed.getSelectedItem();
-            int ID = listaInsumos.size() + 1; 
-            vNewInsumo.JTFID.setText("" + ID);
-            String nombre = vNewInsumo.getJTFNombre().getText();
-            String unidadMed = s;
-            BigDecimal price = new BigDecimal(0);
-            BigDecimal cant = new BigDecimal(0);
+                
+                String s = (String) vNewInsumo.JCBUnidadMed.getSelectedItem();
+                int ID = listaInsumos.size() + 1; 
+                vNewInsumo.JTFID.setText("" + ID);
+                String nombre = vNewInsumo.getJTFNombre().getText();
+                String unidadMed = s;
+                BigDecimal price = new BigDecimal(0);
+                BigDecimal cant = new BigDecimal(0);
             
                 if (nombre.isEmpty()) {
                     throw new EmptyException("");
@@ -488,11 +528,11 @@ public class Controlador implements ActionListener {
                     
                 }            
             
-            Insumo ins = new Insumo(ID,nombre,unidadMed,cant,price,"", "");
+                Insumo ins = new Insumo(ID,nombre,unidadMed,cant,price,"", "");
             
-            listaInsumos.add(ins);
-            vCompras.JCBInsumos.addItem(ins.getNombre());
-            JOptionPane.showMessageDialog(null, "¡Guardado satisfactoriamente!");
+                listaInsumos.add(ins);
+                vCompras.JCBInsumos.addItem(ins.getNombre());
+                JOptionPane.showMessageDialog(null, "¡Guardado satisfactoriamente!");
             
             }
             
@@ -506,11 +546,10 @@ public class Controlador implements ActionListener {
             
         }        
         
-        
+        //Boton "Salir"
         if (vNewInsumo.getJBSalir() == e.getSource()){
             vNewInsumo.setVisible(false);
-        }
-        
+        }        
         
         
     }
