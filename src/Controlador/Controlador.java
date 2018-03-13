@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,15 +33,15 @@ public class Controlador implements ActionListener {
     private final SalirView vSalir;
     private final NuevoInsumoView vNewInsumo;
     private final InventariosView vInventarios;
-    private final Insumos insumos;
-    private ArrayList<Insumos> listaInsumos;
+    private final Insumo insumos;
+    private ArrayList<Insumo> listaInsumos;
     private ArrayList<String> listaUnidadesMed;
-    private ArrayList<Insumos> listaRegistroInsumos;
-    private ArrayList<Insumos> listaInventarios;
+    private ArrayList<Insumo> listaRegistroInsumos;
+    private ArrayList<Insumo> listaInventarios;
     private ArrayList<Producto> listaProductos;
     
     //Constructor
-    public Controlador(MainView vMain, ComprasView vCompras, ProduccionView vProduccion, RegistroInventarioView vRegistroInventarios, SalirView vSalir, NuevoInsumoView vNewInsumo, InventariosView vInventarios, Insumos insumos, ArrayList<Insumos> listaInsumos, ArrayList<String> listaUnidadesMed, ArrayList<Insumos> listaRegistroInsumos, ArrayList<Insumos> listaInventarios) {
+    public Controlador(MainView vMain, ComprasView vCompras, ProduccionView vProduccion, RegistroInventarioView vRegistroInventarios, SalirView vSalir, NuevoInsumoView vNewInsumo, InventariosView vInventarios, Insumo insumos, ArrayList<Insumo> listaInsumos, ArrayList<String> listaUnidadesMed, ArrayList<Insumo> listaRegistroInsumos, ArrayList<Insumo> listaInventarios) {
         this.vMain = vMain;
         this.vCompras = vCompras;
         this.vProduccion = vProduccion;
@@ -125,8 +126,6 @@ public class Controlador implements ActionListener {
         //Inicialización de las tablas
         configuraTablaRegistro(vRegistroInventarios.JTInsumos);
         configuraTablaInventarios(vInventarios.JTInventarios);
-        System.out.println("Hola culebros");
-        
         }
     
     /**
@@ -161,7 +160,7 @@ public class Controlador implements ActionListener {
         titulos.add("Fecha");
         titulos.add("Transacción");
         
-        for (Insumos ins : listaRegistroInsumos) {
+        for (Insumo ins : listaRegistroInsumos) {
             Vector<Object> row = new Vector<Object>();
             
             row.add(ins.getID());
@@ -193,14 +192,16 @@ public class Controlador implements ActionListener {
         titulos.add("Nombre");
         titulos.add("Cantidad");
         titulos.add("Precio unitario promedio");
+        titulos.add("Unidad de medida");
         
-        for (Insumos ins : listaInventarios) {
+        for (Insumo ins : listaInventarios) {
             Vector<Object> row = new Vector<Object>();
             
             row.add(ins.getID());
             row.add(ins.getNombre());
             row.add(ins.getCantidad());
             row.add(ins.getPrecio());
+            row.add(ins.getUnidadMedida());
             
             datos.add(row);
         }
@@ -240,7 +241,12 @@ public class Controlador implements ActionListener {
             
             try{
                 
-                //Tomo los valores nombreInsumo, cantidad, precio y fecha
+                /*
+                Se toman los valores {nombreInsumo, cantidad, precio, fecha}
+                de los campos correspondientes en la interfaz grafica donde 
+                escribirá y/o seleccionara el usuario. La transaccion será, en
+                esta caso, siempre la constante "Compra".
+                */
                 String nombreInsumo = (String) vCompras.JCBInsumos.getSelectedItem();                
                 BigDecimal cantidad = new BigDecimal(vCompras.JTFCantidad.getText());
                 BigDecimal precio = new BigDecimal(vCompras.JTFPrecio.getText());
@@ -248,72 +254,157 @@ public class Controlador implements ActionListener {
                 String fechaActual = EstablecerFecha(fecha);
                 String transaccion = "Compra";
             
-                //NombreInsumo no puede estár vacío
+                //Excepción donde se verifica que el campo nombre no esté vacío
                 if(nombreInsumo.isEmpty() || vCompras.JTFCantidad.getText().isEmpty() || vCompras.JTFPrecio.getText().isEmpty()){
                     throw new EmptyException("");
                 }
                 
-                //La cantidad y el precio no pueden ser menores o iguales a cero
+                //Excepción donde se verifica que la cantidad y precio no sean menores o iguales a cero
                 if (cantidad.doubleValue() <= 0 || precio.doubleValue() <= 0){
                     throw new CeroException("");
-                }              
+                }               
                 
-                
-                //Para cada elemento de listaInsumos
-                for (int i = 0; i < listaInsumos.size(); i++) {
+                /*
+                En esta parte con los datos obtenidos previamente se busca en la
+                lista de insumos elemento por elemento, para agregar este a el
+                registro de compras y los inventarios.
+                */
+                for (Insumo insumo : listaInsumos) {                    
                     
-                        //Si en los inventarios existe ya el insumo, solo se cambian sus valores
-                        int cont = 0;
-                        for(Insumos nombre : listaInventarios){
+                    boolean existe = false;
+                    
+                    /*
+                    En esta parte ser verifica si en los inventarios existe ya 
+                    el insumo, de ser así, solo se actualizan la cantidad y el 
+                    precio promedio por unidad en la lista de inventarios.                    
+                    */
+                    for(Insumo nombre : listaInventarios){
                             
-                            if (nombre.getNombre().equals(nombreInsumo)) {
-                                BigDecimal cantTotal = cantidad.add(nombre.getCantidad());
-                                nombre.setCantidad(cantTotal);
+                        /*
+                        En esta parte se verifica si el nombre del insumo que
+                        está seleccionado por el usuario es igual al nombre del
+                        elemento actual de la lista, de ser así se procede a
+                        cambiar la cantidad y el precio unitario del insumo en 
+                        los inventarios.
+                        */
+                        if (nombre.getNombre().equals(nombreInsumo)) {
+                            //BigDecimal cantTotal = cantidad.add(nombre.getCantidad());
+                            BigDecimal cantTotal = nombre.getCantidad().add(cantidad);
+                            nombre.setCantidad(cantTotal);
                                 
-                                BigDecimal TWO = new BigDecimal(2);
-                                BigDecimal precioProme = precio.divide(cantidad);
-                                BigDecimal precioProme2 = precioProme.add(nombre.getPrecio()).divide(TWO);
-                                precioProme.setScale(2, BigDecimal.ROUND_UP);                                
-                                nombre.setPrecio(precioProme2);
-                                cont++;
-                            }
-                            
+                            BigDecimal TWO = new BigDecimal(2);
+                            BigDecimal precioProme = precio.divide(cantidad, 2, RoundingMode.CEILING);
+                            BigDecimal precioProme2 = precioProme.add(nombre.getPrecio()).divide(TWO, 2, RoundingMode.CEILING);
+                            //precioProme.setScale(2, BigDecimal.ROUND_UP);                                
+                            nombre.setPrecio(precioProme2);
+                            existe = true;
+                            break;
                         }
                     
-                    //Si su nombre es igual a nombreInsumo
-                    if (listaInsumos.get(i).getNombre().equals(nombreInsumo)) {
+                    }                    
+                    
+                    /*
+                    En esta parte se verifica si en ya existía el insumo en los
+                    inventarios, de ser sasí, se añade al registro de insumos la
+                    compra para lo cual se utilizan los datos solicitados
+                    previamente {unidadMed, ID}.
+                    */
+                    if (existe) {                        
                         
-                        int ID = listaInsumos.get(i).getID();
-                        String unidadMed = listaInsumos.get(i).getUnidadMedida();
+                        int ID = insumo.getID();
+                        String unidadMed = insumo.getUnidadMedida();
+                        Insumo compraInsumos = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
+                        listaRegistroInsumos.add(compraInsumos); 
                         
-                        //Invertí cantidad <-> precio
-                        BigDecimal precioProm = precio.divide(cantidad);
-                        precioProm.setScale(2, BigDecimal.ROUND_UP);
-                        
-                        Insumos compra = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
-                        
-                        Insumos compra2 = new Insumos(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual, transaccion);
-                        
-                        listaRegistroInsumos.add(compra);
-                        
-                         //Aqui voy a tomar el nombre de cada elemento de listaInventarios y checar si su nombre es igual
-                         //Al que se esta comprando, si es igual, solo se cambiaran la cantidad y promedio, si no
-                         //Se agregará el inusmo por primera vez                  
-                        
-                        
-                        if (cont == 0) {
-                            listaInventarios.add(compra2);
-                            System.out.println("No existe el insumo en el inventario");
-                        }
-                        
-                        //Si no existe algun insumo en inventarios agrega la primera cantidad y su promedio
-//                        if (listaInventarios.isEmpty()) {
-//                            listaInventarios.add(compra2);
-//                        } 
-                           
+                        break;
                     }
                     
-                }
+                    
+                        /*
+                        Aquí se verifica si el insumo no está en los inventarios,
+                        de ser así, se agrega la compra al registro y se añade 
+                        por primera vez a los inventarios, para lo cual se utilizan
+                        los datos solicidados previamente {ID y unidadMed}.
+                        */
+                        if (insumo.getNombre().equals(nombreInsumo)) {
+                        
+                            int ID = insumo.getID();
+                            String unidadMed = insumo.getUnidadMedida();
+                        
+                            BigDecimal precioProm = precio.divide(cantidad, 2, RoundingMode.CEILING);
+                            precioProm.setScale(2, BigDecimal.ROUND_UNNECESSARY);
+                        
+                            //CompraInsumos sirve agregar la compra al registro
+                            Insumo compraInsumos = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
+                        
+                            //CompraInventarios sirve para agregar el insumo a los inventarios
+                            Insumo compraInventarios = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual, transaccion);
+                        
+                            listaRegistroInsumos.add(compraInsumos);                      
+                        
+                            //Si nunca antes se ha comprado el insumo se agrega por primera vez al inventario
+                            if (existe == false) {
+                                listaInventarios.add(compraInventarios);
+                                System.out.println("Se agregó por primera vez el insumo al inventario");
+                            }
+                        
+                        }                            
+                             
+                    }
+                
+                //Para cada elemento de listaInsumos (1)
+//                for (int i = 0; i < listaInsumos.size(); i++) {
+//                    
+//                        //Si en los inventarios existe ya el insumo, solo se cambian sus valores
+//                        boolean existe = false;
+//                        for(Insumo nombre : listaInventarios){
+//                            
+//                            if (nombre.getNombre().equals(nombreInsumo)) {
+//                                //BigDecimal cantTotal = cantidad.add(nombre.getCantidad());
+//                                BigDecimal cantTotal = nombre.getCantidad().add(cantidad);
+//                                nombre.setCantidad(cantTotal);
+//                                
+//                                BigDecimal TWO = new BigDecimal(2);
+//                                BigDecimal precioProme = precio.divide(cantidad, 2, RoundingMode.CEILING);
+//                                BigDecimal precioProme2 = precioProme.add(nombre.getPrecio()).divide(TWO, 2, RoundingMode.CEILING);
+//                                //precioProme.setScale(2, BigDecimal.ROUND_UP);                                
+//                                nombre.setPrecio(precioProme2);
+//                                existe = true;
+//                                break;
+//                            }                            
+//                            
+//                            
+//                        }
+//                    
+//                    //Si su nombre es igual a nombreInsumo
+//                    if (listaInsumos.get(i).getNombre().equals(nombreInsumo)) {
+//                        
+//                        int ID = listaInsumos.get(i).getID();
+//                        String unidadMed = listaInsumos.get(i).getUnidadMedida();
+//                        
+//                        BigDecimal precioProm = precio.divide(cantidad, 2, RoundingMode.CEILING);
+//                        precioProm.setScale(2, BigDecimal.ROUND_UNNECESSARY);
+//                        
+//                        //CompraInsumos sirve para el registro de insumos comprados
+//                        Insumo compraInsumos = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precio,fechaActual, transaccion);
+//                        
+//                        //CompraInventarios sirve para agregar a los inventarios
+//                        Insumo compraInventarios = new Insumo(ID,nombreInsumo,unidadMed,cantidad,precioProm,fechaActual, transaccion);
+//                        
+//                        listaRegistroInsumos.add(compraInsumos);             
+//                        
+//                        
+//                        //Si nunca antes se ha comprado el insumo se agrega por primera vez al inventario
+//                        if (existe == false) {
+//                            listaInventarios.add(compraInventarios);
+//                            System.out.println("No existe el insumo en el inventario");
+//                            break; 
+//                        }
+//                       break;    
+//                    }
+//                    
+//                    
+//                }
                 
                 
 
@@ -397,7 +488,7 @@ public class Controlador implements ActionListener {
                     
                 }            
             
-            Insumos ins = new Insumos(ID,nombre,unidadMed,cant,price,"", "");
+            Insumo ins = new Insumo(ID,nombre,unidadMed,cant,price,"", "");
             
             listaInsumos.add(ins);
             vCompras.JCBInsumos.addItem(ins.getNombre());

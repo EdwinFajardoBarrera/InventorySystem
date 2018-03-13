@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  *
  * @author erofa
  */
-public class Insumos {
+public class Insumo {
     
     private int ID;
     private String nombre;
@@ -18,7 +18,7 @@ public class Insumos {
     private String transaccion;
 
     //Constructor
-    public Insumos(int ID, String nombre, String unidadMedida, BigDecimal cantidad, BigDecimal precio, String fecha, String transaccion) {
+    public Insumo(int ID, String nombre, String unidadMedida, BigDecimal cantidad, BigDecimal precio, String fecha, String transaccion) {
         this.ID = ID;
         this.nombre = nombre;
         this.unidadMedida = unidadMedida;

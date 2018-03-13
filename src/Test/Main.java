@@ -28,11 +28,11 @@ public class Main {
         InventariosView vInventarios = new InventariosView();
         BigDecimal num = new BigDecimal(0);
         BigDecimal cant = new BigDecimal(0);
-        Insumos insumo = new Insumos(0,"","",cant,num,"","");
-        ArrayList<Insumos> listaInsumos = new ArrayList<Insumos>();
+        Insumo insumo = new Insumo(0,"","",cant,num,"","");
+        ArrayList<Insumo> listaInsumos = new ArrayList<Insumo>();
         ArrayList<String> listaUnidades = new ArrayList<String>();
-        ArrayList<Insumos> listaRegistroInventarios = new ArrayList<Insumos>();
-        ArrayList<Insumos> listaInventarios = new ArrayList<Insumos>();
+        ArrayList<Insumo> listaRegistroInventarios = new ArrayList<Insumo>();
+        ArrayList<Insumo> listaInventarios = new ArrayList<Insumo>();
         listaUnidades.add("Litros");
         listaUnidades.add("Kilos");
         listaUnidades.add("Gramos");
